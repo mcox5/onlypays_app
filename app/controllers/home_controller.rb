@@ -1,9 +1,10 @@
 class HomeController < ApplicationController
   def index
-    @sales_per_category = sales_per_category
 
-    @order_products = order_products_by_sales(Product.all, 3)
+    @client_sales = client_sales
     raise
+    @order_products = order_products_by_sales(Product.all, 3)
+    @sales_per_category = sales_per_category
 
   end
 
@@ -45,4 +46,18 @@ class HomeController < ApplicationController
     sorted_products = array_of_sales.sort_by { |hash| -hash[:total_sales] }
     return { :best_products => sorted_products.first(n), :worst_products => sorted_products.last(n) }
   end
+
+  # Método para encontrar las ventas promedio de los clientes (CANTIDAD DE PRODUCTOS COMPRADOS/CANTIDAD DE VENTAS EN LOS QUE SE COMPRÓ (STATUS = 0))
+  def client_sales
+    clients_sales_result = []
+    Client.all.each do |client|
+      client_sales = client.sales_products.reject { |sale_product|  Sale.find(sale_product.sale_id).status != 0 }
+      client_sales_quantity = client_sales.inject(0) { |sum, sale_product| sum + sale_product.quantity }
+      client_effective_sales = client.sales.select { |sale| sale.status == 0}
+      number_of_sales = client_effective_sales.size
+      clients_sales_result.push({ :client => client.name, :average_of_sales => (client_sales_quantity / number_of_sales) })
+    end
+    return clients_sales_result
+  end
+
 end
