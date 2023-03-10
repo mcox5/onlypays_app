@@ -1,10 +1,9 @@
 class HomeController < ApplicationController
   def index
     @sales = sales_record.first(15)
-    raise
-    @client_sales = client_sales
-    @order_products = order_products_by_sales(Product.all, 3)
     @sales_per_category = sales_per_category
+    @order_products = order_products_by_sales(Product.all, 3)
+    @client_sales = client_sales
 
   end
 
@@ -62,7 +61,10 @@ class HomeController < ApplicationController
 
   def sales_record
     sales = Sale.all.sort_by { |sale| sale.date}
-    return sales
+    resumen_sales = sales.map do |sale|
+      { :client => Client.find(sale.client_id), :date => sale.date, :status => sale.status}
+    end
+    return resumen_sales.first(15)
   end
 
 end

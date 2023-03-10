@@ -1,4 +1,123 @@
-<h1>Aca va a ir el DASHBOARD</h1>
-<%= @sales_per_category %>
-<hr>
-<%= @first_product_sales %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Model Page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style_dashboard_1">
+    <%= stylesheet_link_tag 'style_dashboard_1' %>
+
+  </head>
+  <body>
+    <h1>My Model Page</h1>
+    <p>This is a simple model page that demonstrates the structure of a typical HTML page.</p>
+    <hr>
+    <h2>Sales per Category</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Total Sales</th>
+          <th>Total Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sales_per_category.each do |category, data| %>
+          <tr>
+            <td><%= category.name %></td>
+            <td><%= data[:total_sales] %></td>
+            <td><%= data[:total_quantity] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <hr>
+    <h2>Best and Worst Selling Products</h2>
+    <h3>Best Selling Products</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Total Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order_products[:best_products].each do |product| %>
+          <tr>
+            <td><%= product[:product_name] %></td>
+            <td><%= product[:total_sales] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <h3>Worst Selling Products</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Total Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @order_products[:worst_products].each do |product| %>
+          <tr>
+            <td><%= product[:product_name] %></td>
+            <td><%= product[:total_sales] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <hr>
+    <h2>Average Sales per Client</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Average Sales</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @client_sales.each do |client| %>
+          <tr>
+            <td><%= client[:client] %></td>
+            <td><%= client[:average_of_sales] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <hr>
+    <h2>Last 15 Sales Information</h2>
+    <table>
+  <thead>
+    <tr>
+      <th>Client Name</th>
+      <th>Client Rut</th>
+      <th>Sale Date</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sales.each do |sale| %>
+      <tr>
+        <td><%= sale[:client].name %></td>
+        <td><%= sale[:client].rut %></td>
+        <td><%= sale[:date].strftime("%Y-%m-%d %H:%M:%S") %></td>
+        <td>
+          <% case sale[:status]
+          when 0
+            %><span style="color: green;">Active</span><%
+          when 1
+            %><span style="color: orange;">Pending</span><%
+          when 2
+            %><span style="color: red;">Cancelled</span><%
+          end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+  </body>
+</html>
