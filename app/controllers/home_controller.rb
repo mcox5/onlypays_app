@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
   def index
-
-    @client_sales = client_sales
+    @sales = sales_record.first(15)
     raise
+    @client_sales = client_sales
     @order_products = order_products_by_sales(Product.all, 3)
     @sales_per_category = sales_per_category
 
@@ -58,6 +58,11 @@ class HomeController < ApplicationController
       clients_sales_result.push({ :client => client.name, :average_of_sales => (client_sales_quantity / number_of_sales) })
     end
     return clients_sales_result
+  end
+
+  def sales_record
+    sales = Sale.all.sort_by { |sale| sale.date}
+    return sales
   end
 
 end
