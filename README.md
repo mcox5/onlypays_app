@@ -2,6 +2,16 @@
 
 **PLAGLAB STORE APP**
 This is a project that consist of an analysis of the data of PLAGLAB-STORE, delivering the main results requested by the store manager.
+He wants the following data initially:
+- Sales by category (quantity and totals)
+- Know which are the most and least sold products
+- Average sales per customer
+- Record of the last 15 sales
+- Optionally, you would like to add product, category or customer filters (NICETOHAVE)
+
+**CLARIFICATIONS AND ASSUMPTIONS**
+
+To calculate the sales per category, products more and less sold, average clients sales, is **ONLY CONSIDERED THE SALES WITH STATUS EQUAL TO 0**
 
 **Getting Started**
 The project was build under a MVC architecture, with a MySQL remote database. The name of the tables of the DataBase were the models that were the basics objects to manipulate with the controller (clients, sales, categories, etc). The controller works with the models informations and then the view show all information that the controller gave to it.
